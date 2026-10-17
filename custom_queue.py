@@ -1,30 +1,44 @@
 import random
 
+
 class Queue:
+    """A first-in, first-out (FIFO) queue of customer entries."""
+
     def __init__(self):
         self.items = []
 
     def enqueue(self, item):
-        # TODO: Add an item to the end of the queue
-        pass
+        # add a new entry to the back of the line
+        self.items.append(item)
 
     def dequeue(self):
-        # TODO: Remove and return the item from the front of the queue
-        pass
+        # remove and return the entry at the front of the line
+        if self.is_empty():
+            return None
+        return self.items.pop(0)
 
     def peek(self):
-        # TODO: Return the item at the front of the queue without removing it
-        pass
+        # look at the front entry without removing it
+        if self.is_empty():
+            return None
+        return self.items[0]
 
     def is_empty(self):
-        # TODO: Return True if the queue is empty
-        pass
+        return len(self.items) == 0
 
     def select_and_announce_winner(self):
-        """
-        Randomly selects a winner from the queue.
-        Dequeues all items up to and including the winner.
-        Returns the name of the winning customer.
-        """
-        # TODO: Implement winner selection and dequeue process
-        pass
+        """Pick a random winner, then dequeue everyone up to and including them."""
+        if self.is_empty():
+            print("No entries in the raffle.")
+            return None
+
+        # choose a random position in the line
+        winner_index = random.randint(0, len(self.items) - 1)
+        winner = self.items[winner_index]
+
+        # remove entries from the front until the winner has been removed
+        for _ in range(winner_index + 1):
+            self.dequeue()
+
+        print(f"The winner is: {winner}")
+        return winner
